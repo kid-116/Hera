@@ -1,0 +1,58 @@
+version: '3.7'
+name: hera
+
+services:
+  wso2is:
+    image: wso2/wso2is:5.7.0
+    ports:
+      - 9443:9443
+
+  mysql:
+    image: mysql:8.0
+    ports:
+      - 3306:3306
+    environment:
+      - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
+      - MYSQL_DATABASE=${MYSQL_DATABASE}
+      - MYSQL_USER=${MYSQL_USER}
+      - MYSQL_PASSWORD=${MYSQL_PASSWORD}
+    volumes:
+      - mysql-data:/var/lib/mysql
+      - ./init_db/00.sh:/docker-entrypoint-initdb.d/00.sh
+      - ./init_db/database.sql:/database.sql
+    depends_on:
+      - wso2is
+
+  adminer:
+    image: adminer
+    depends_on:
+      - mysql
+    ports:
+      - 8080:8080
+
+  app:
+    build:
+      context: .
+      target: dev
+    container_name: app
+    environment:
+      - PORT=${APP_PORT}
+      - MYSQL_HOST=mysql
+      - MYSQL_DATABASE=${MYSQL_DATABASE}
+      - MYSQL_USER=${MYSQL_USER}
+      - MYSQL_PASSWORD=${MYSQL_PASSWORD}
+    depends_on:
+      - mysql
+    volumes:
+      - ./app:/src
+    entrypoint: flask run --host 0.0.0.0 --port ${APP_PORT} --debug
+    ports:
+      - ${APP_PORT}:${APP_PORT}
+
+networks:
+  default:
+    name: hera
+
+volumes:
+  mysql-data:
+    driver: local
