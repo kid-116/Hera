@@ -3,9 +3,12 @@ name: hera
 
 services:
   wso2is:
-    image: wso2/wso2is:5.7.0
+    image: wso2/wso2is:5.11.0
     ports:
       - 9443:9443
+    volumes:
+      - wso2is-data:/home/wso2carbon/wso2is-5.11.0/repository/database
+      - ./deployment.toml:/home/wso2carbon/wso2is-5.11.0/repository/conf/deployment.toml
 
   mysql:
     image: mysql:8.0
@@ -34,20 +37,26 @@ services:
     build:
       context: .
       target: dev
-    container_name: app
     environment:
       - PORT=${APP_PORT}
       - MYSQL_HOST=mysql
       - MYSQL_DATABASE=${MYSQL_DATABASE}
       - MYSQL_USER=${MYSQL_USER}
       - MYSQL_PASSWORD=${MYSQL_PASSWORD}
+      - WSO2_CLIENT_ID=${WSO2_CLIENT_ID}
+      - WSO2_CLIENT_SECRET=${WSO2_CLIENT_SECRET}
+      - WSO2_HOST=https://wso2is:${WSO2_PORT}
+      - FLASK_APP=app.py
     depends_on:
       - mysql
     volumes:
-      - ./app:/src
-    entrypoint: flask run --host 0.0.0.0 --port ${APP_PORT} --debug
+      - ./app:/src/app
+      - ./config.py:/src/config.py
+      - ./app.py:/src/app.py
+    entrypoint: python app.py
     ports:
       - ${APP_PORT}:${APP_PORT}
+    restart: always
 
 networks:
   default:
@@ -55,4 +64,6 @@ networks:
 
 volumes:
   mysql-data:
+    driver: local
+  wso2is-data:
     driver: local

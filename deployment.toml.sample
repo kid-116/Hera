@@ -1,0 +1,80 @@
+[server]
+base_path = "https://$ref{server.hostname}:${carbon.management.port}"
+hostname = "localhost"
+node_ip = "127.0.0.1"
+
+[super_admin]
+create_admin_account = true
+password = "admin"
+username = "admin"
+
+[user_store]
+base_dn = "dc=wso2,dc=org" # refers the base dn on which the user and group search bases will be generated
+connection_name = "uid=admin,ou=system" 
+connection_password = "admin" 
+connection_url = "ldap://localhost:${Ports.EmbeddedLDAP.LDAPServerPort}" 
+type = "read_write_ldap_unique_id" 
+
+[database.identity_db]
+password = "wso2carbon"
+type = "h2"
+url = "jdbc:h2:./repository/database/WSO2IDENTITY_DB;DB_CLOSE_ON_EXIT=FALSE;LOCK_TIMEOUT=60000"
+username = "wso2carbon"
+
+[database.shared_db]
+password = "wso2carbon"
+type = "h2"
+url = "jdbc:h2:./repository/database/WSO2SHARED_DB;DB_CLOSE_ON_EXIT=FALSE;LOCK_TIMEOUT=60000"
+username = "wso2carbon"
+
+[keystore.primary]
+file_name = "wso2carbon.jks"
+password = "wso2carbon"
+
+[truststore]
+file_name = "client-truststore.jks"
+password = "wso2carbon"
+type = "JKS"
+
+[account_recovery.endpoint.auth]
+hash = "66cd9688a2ae068244ea01e70f0e230f5623b7fa4cdecb65070a09ec06452262"
+
+[identity.auth_framework.endpoint]
+app_password = "dashboard"
+
+# The KeyStore which is used for encrypting/decrypting internal data. By default
+# the primary keystore is used as the internal keystore.
+
+# [keystore.internal]
+# alias = "$ref{keystore.primary.alias}"
+# file_name = "$ref{keystore.primary.file_name}"
+# key_password = "$ref{keystore.primary.key_password}"
+# password = "$ref{keystore.primary.password}"
+# type = "$ref{keystore.primary.type}"
+
+# The KeyStore which is used for tls communication. By default the primary
+# keystore is used as the tls keystore.
+
+# [keystore.tls]
+# alias = "$ref{keystore.primary.alias}"
+# file_name = "$ref{keystore.primary.file_name}"
+# key_password = "$ref{keystore.primary.key_password}"
+# password = "$ref{keystore.primary.password}"
+# type = "$ref{keystore.primary.type}"
+
+# Google reCAPTCHA settings.
+
+# [recaptcha]
+# api_url = "https://www.google.com/recaptcha/api.js"
+# enabled = "true"
+# secret_key = ""
+# site_key = ""
+# verify_url = "https://www.google.com/recaptcha/api/siteverify"
+
+# SMTP email sender settings.
+[output_adapter.email]
+from_address = "noreply116.hera@gmail.com"
+hostname = "smtp.gmail.com"
+password = "<password>"
+port = 587
+username = "noreply116.hera"

@@ -10,14 +10,14 @@ CREATE TABLE hera.users (
 );
 
 CREATE TABLE hera.friends (
-	id1 INT,
-	id2 INT,
+	id1 VARCHAR(50),
+	id2 VARCHAR(50),
 	balance INT
 );
 
 CREATE TABLE hera.history (
-	id1 INT,
-	id2 INT,
+	id1 VARCHAR(50),
+	id2 VARCHAR(50),
 	amount INT,
 	description VARCHAR(100),
 	dateAdded DATE

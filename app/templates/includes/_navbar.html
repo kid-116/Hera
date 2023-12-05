@@ -20,13 +20,12 @@
       </ul>
       
       <ul class="nav navbar-nav navbar-right">
-        {% if session.logged_in %}
-          <li><a href="/dashboard">DASHBOARD</a></li>
-          <li><a href="/logout">LOGOUT</a></li>
-          <li><a href="/activities">ACTIVITIES</a></li>
+        {% if session.user %}
+          <li><a href="{{ url_for('dash.dashboard') }}">DASHBOARD</a></li>
+          <li><a href="{{ url_for('users.logout') }}">LOGOUT</a></li>
+          <li><a href="{{ url_for('transactions.activities') }}">ACTIVITIES</a></li>
         {% else %}
-          <li><a href="/register">REGISTER</a></li>
-          <li><a href="/login">LOGIN</a></li>
+          <li><a href="{{ url_for('users.oauth2_authorize', provider='wso2') }}">LOGIN</a></li>
         {% endif %}
       </ul>
     </div>

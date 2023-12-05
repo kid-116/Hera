@@ -12,14 +12,14 @@
 			<thead>
 				<tr>
 					<th>Name</th>
-					<th>Phone</th>
+					<!-- <th>Phone</th> -->
 					<th>Balance</th>
 				</tr>
 			</thead>
 		{% for row in session['friends'] %}
 			<tr>
 				<td>{{ row['name'] }}</td>
-				<td>{{ row['phone'] }}</td>
+				<!-- <td>{{ row['phone'] }}</td> -->
 				{% if row['balance'] > 0 %}
 					<td><b style="color: green">Owes you</b> Rs.{{ row['balance'] }}</td>
 				{% elif row['balance'] < 0 %}
@@ -27,8 +27,8 @@
 				{% else %}
 					<td><b style="color: blue">Settled up.</b></td>
 				{% endif %}
-				<td style="width: 40px;border: none;"><button type="submit" class="button1 btn btn-primary btn-block" name="plus" value="{{ row['phone']}}"" style="box-shadow: none;">+</button></td>
-				<td style="width: 70px;border: none;"><button type="submit" class="button1 btn btn-success btn-block" name="settle" value="{{ row['phone']}}"" style="box-shadow: none;">Settle Up</button></td>
+				<td style="width: 40px;border: none;"><button type="submit" class="button1 btn btn-primary btn-block" name="plus" value="{{ row['name']}}"" style="box-shadow: none;">+</button></td>
+				<td style="width: 70px;border: none;"><button type="submit" class="button1 btn btn-success btn-block" name="settle" value="{{ row['name']}}"" style="box-shadow: none;">Settle Up</button></td>
 			</tr>
 		{% endfor %}
 		{% else %}
@@ -38,5 +38,3 @@
 	</table>
 </form>
 {% endblock %}
-<!-- <a href="transactions"> -->
-			<!-- 	<td style="width: 40px;border: none;"><a href="transactions"><img src="{{url_for('static',filename='plus1.png')}}"  class="img-rounded" height="40px" width="40px"></a>	</td> -->
